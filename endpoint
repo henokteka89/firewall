@@ -1,0 +1,10 @@
+SELECT type_desc, state_desc, port, ip_address
+FROM sys.tcp_endpoints
+WHERE type_desc = 'DATABASE_MIRRORING';
+
+
+New-NetFirewallRule -DisplayName "Allow SQL AG traffic on port 5022" -Direction Inbound -Protocol TCP -LocalPort 5022 -Action Allow
+Test-NetConnection -ComputerName <FCINodeIPAddress> -Port 5022
+telnet <FCINodeIPAddress> 5022
+telnet <DRNodeIPAddress> 5022
+Get-DnsClientServerAddress -InterfaceAlias "Ethernet"
